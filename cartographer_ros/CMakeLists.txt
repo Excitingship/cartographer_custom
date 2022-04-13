@@ -102,6 +102,9 @@ if (NOT ${BUILD_GRPC})
   list(REMOVE_ITEM ALL_EXECUTABLES ${ALL_GRPC_FILES})
 endif()
 add_library(${PROJECT_NAME} STATIC ${ALL_SRCS})
+
+
+
 add_subdirectory("cartographer_ros")
 
 target_link_libraries(${PROJECT_NAME} PUBLIC cartographer)
@@ -169,6 +172,12 @@ if (CATKIN_ENABLE_TESTING)
   endforeach()
 endif()
 
+#set(LIBRARY_OUTPUT_PATH ~/carto_ws/src/cartographer_ros/lib)
+#add_library(interface SHARED cartographer_ros/node.cc )
+
+#install(TARGETS interface LIBRARY DESTINATION lib)
+#install(FILES cartographer_ros/interface.h  DESTINATION include)  
+
 install(DIRECTORY launch urdf configuration_files
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
 )
@@ -195,3 +204,5 @@ foreach(HDR ${HDRS})
       include/${INSTALL_DIR}
   )
 endforeach()
+
+

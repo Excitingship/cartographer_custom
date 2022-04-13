@@ -48,6 +48,8 @@
 #include "tf2_eigen/tf2_eigen.h"
 #include "visualization_msgs/MarkerArray.h"
 
+CurrentPose pos_now;
+
 namespace cartographer_ros {
 
 namespace carto = ::cartographer;
@@ -306,6 +308,25 @@ void Node::PublishLocalTrajectoryData(const ::ros::TimerEvent& timer_event) {
           stamped_transforms.push_back(stamped_transform);
 
           tf_broadcaster_.sendTransform(stamped_transforms);
+
+          pos_now.pose.position.x = stamped_transform.transform.translation.x;
+          pos_now.pose.position.y = stamped_transform.transform.translation.y;
+          pos_now.pose.position.z = stamped_transform.transform.translation.z;
+          pos_now.pose.orientation.x = stamped_transform.transform.rotation.x;
+          pos_now.pose.orientation.y = stamped_transform.transform.rotation.y;
+          pos_now.pose.orientation.z = stamped_transform.transform.rotation.z;
+          pos_now.pose.orientation.w = stamped_transform.transform.rotation.w;
+          pos_now.poseValid = true;
+          pos_now.laserPointsTooClose = false;
+          pos_now.laserPointsTooFar = false;
+          pos_now.noLaserData = false;
+
+          std::cout << "Pos_now" << std::endl;
+          std::cout << "x:" << pos_now.pose.position.x << std::endl;
+          std::cout << "y:" << pos_now.pose.position.y << std::endl;
+          std::cout << "z:" << pos_now.pose.position.z << std::endl;
+
+
         } else {
           stamped_transform.header.frame_id = node_options_.map_frame;
           stamped_transform.child_frame_id =
@@ -893,3 +914,16 @@ void Node::MaybeWarnAboutTopicMismatch(
 }
 
 }  // namespace cartographer_ros
+
+
+
+bool getPose(CurrentPose &pose)
+{
+    pose.laserPointsTooClose = pos_now.laserPointsTooClose;
+    pose.laserPointsTooFar = pos_now.laserPointsTooFar;
+    pose.noLaserData = pos_now.noLaserData;
+    pose.pose = pos_now.pose;
+    pose.poseValid = pos_now.poseValid;
+    memcpy(pos_now.reserve, pose.reserve, 16);
+    return true;
+}

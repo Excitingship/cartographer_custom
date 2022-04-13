@@ -50,6 +50,7 @@
 #include "sensor_msgs/NavSatFix.h"
 #include "sensor_msgs/PointCloud2.h"
 #include "tf2_ros/transform_broadcaster.h"
+#include "interface.h"
 
 namespace cartographer_ros {
 

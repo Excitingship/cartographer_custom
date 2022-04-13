@@ -1,3 +1,12 @@
+--[[
+Author: ljz
+Date: 2021-08-17 12:06:32
+LastEditTime: 2022-04-13 12:48:29
+LastEditors: ljz
+Description: 
+FilePath: /carto_ws/src/cartographer_ros/cartographer_ros/configuration_files/backpack_2d.lua
+
+--]]
 -- Copyright 2016 The Cartographer Authors
 --
 -- Licensed under the Apache License, Version 2.0 (the "License");
@@ -41,6 +50,7 @@ options = {
   fixed_frame_pose_sampling_ratio = 1.,
   imu_sampling_ratio = 1.,
   landmarks_sampling_ratio = 1.,
+  publish_tracked_pose = true
 }
 
 MAP_BUILDER.use_trajectory_builder_2d = true
